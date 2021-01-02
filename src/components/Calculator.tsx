@@ -7,7 +7,6 @@ function Calculator() {
   const [answer, setAns] : [number, any] = useState(0);
   const [history, setHist] : [Array<any>, any] = useState([]);
   // TODO: improve evaluate function and test it for any bugs. Need to add exponents and parenthesis
-  // TODO: account for negative numbers
   const evaluate = (expr: string): number => {
     let exp: string = "";
     for (let i = 0; i < expr.length; i++) {
@@ -17,41 +16,46 @@ function Calculator() {
       exp += expr[i];
     }
     let expression: Array<string> = [],
-      operators: Array<string> = [],
-      temp: string = "";
+        operators: Array<string> = [],
+        temp: string = "";
     //console.log("Expression: ", exp);
     for (let i = 0; i < exp.length; i++){
-      if (exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || exp[i] === '-'){
-        expression.push(temp);
-        temp = "";
-        if (expression.length >= 2){
-          if (operators.length > 0 && (operators[operators.length-1] === '*' || operators[operators.length-1] === '/')){
-            let one : string | undefined = expression.pop();
-            let two : string | undefined = expression.pop();
-            let op : string | undefined = operators.pop();
-            if (one !== undefined && two !== undefined && op !== undefined){
-              expression.push(one + " " + two + op);
+        console.log("Temp: ", temp);
+        if ((exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || exp[i] === '-') && temp.length > 0){
+            console.log("operator", temp);
+            expression.push(temp);
+            temp = "";
+            if (expression.length >= 2){
+                if (operators.length > 0 && (operators[operators.length-1] === '*' || operators[operators.length-1] === '/')){
+                    let one : string | undefined = expression.pop();
+                    let two : string | undefined = expression.pop();
+                    let op : string | undefined = operators.pop();
+                    if (one !== undefined && two !== undefined && op !== undefined){
+                        expression.push(one + " " + two + op);
+                    }
+                }
+                if (operators.length > 0 && 
+                    (operators[operators.length-1] === '+' || operators[operators.length-1] === '-') && 
+                    exp[i] !== '*' && exp[i] !== '/') {
+                    let one : string | undefined = expression.pop();
+                    let two : string | undefined = expression.pop();
+                    let op : string | undefined = operators.pop();
+                    if (one !== undefined && two !== undefined && op !== undefined){
+                        expression.push(two + " " + one + op);
+                    }
+                }
             }
-          }
-          if (operators.length > 0 && (operators[operators.length-1] === '+' || operators[operators.length-1] === '-') && exp[i] !== '*' && exp[i] !== '/') {
-            let one : string | undefined = expression.pop();
-            let two : string | undefined = expression.pop();
-            let op : string | undefined = operators.pop();
-            if (one !== undefined && two !== undefined && op !== undefined){
-              expression.push(two + " " + one + op);
-            }
-          }
+            operators.push(exp[i]);
         }
-        operators.push(exp[i]);
-      }
-      else {
-        temp += exp[i];
-      }
+        else {
+            temp += exp[i];
+        }
     }
     if (temp.length > 0){
+        console.log("done loop: ", temp);
         expression.push(temp);
     }
-    // console.log("before while: " , expression, operators);
+    console.log("before while: " , expression, operators);
     let counter = 0;
     while (operators.length > 0 && expression.length >= 2){
         counter++;
@@ -59,67 +63,89 @@ function Calculator() {
             throw new Error("inf loop");
         } 
         if (operators.length > 0 && (operators[operators.length-1] === '*' || operators[operators.length-1] === '/')){
-          let one : string | undefined = expression.pop();
-          let two : string | undefined = expression.pop();
-          let op : string | undefined = operators.pop();
-          if (one !== undefined && two !== undefined && op !== undefined){
-            expression.push(one + " " + two + op);
-          }
+            let one : string | undefined = expression.pop();
+            let two : string | undefined = expression.pop();
+            let op : string | undefined = operators.pop();
+            if (one !== undefined && two !== undefined && op !== undefined){
+                expression.push(one + " " + two + op);
+            }
         }
         if (operators.length > 0 && (operators[operators.length-1] === '+' || operators[operators.length-1] === '-')) {
-          let one : string | undefined = expression.pop();
-          let two : string | undefined = expression.pop();
-          let op : string | undefined = operators.pop();
-          if (one !== undefined && two !== undefined && op !== undefined){
-            expression.push(two + " " + one + op);
-          }
+            let one : string | undefined = expression.pop();
+            let two : string | undefined = expression.pop();
+            let op : string | undefined = operators.pop();
+            if (one !== undefined && two !== undefined && op !== undefined){
+                expression.push(two + " " + one + op);
+            }
         }
     }
     // after here, just need the postfix expression
-    // console.log("after while: ", expression, operators);
+    console.log("after while: ", expression, operators);
     let postfix: string | undefined = expression.pop();
     let values: Array<number> = [],
       tmp: string = "";
-    if (postfix !== undefined) {
-      for (let i = 0; i < postfix.length; i++) {
-        if (
-          values.length > 0 &&
-          (postfix[i] === "+" ||
-            postfix[i] === "-" ||
-            postfix[i] === "*" ||
-            postfix[i] === "/")
-        ) {
-          if (tmp.length > 0) {
-            values.push(parseInt(tmp));
-          }
-          let v1: number | undefined = values.pop();
-          let v2: number | undefined = values.pop();
-          if (v1 !== undefined && v2 !== undefined) {
-            switch (postfix[i]) {
-              case "+":
-                values.push(v2 + v1);
-                break;
-              case "-":
-                values.push(v2 - v1);
-                break;
-              case "*":
-                values.push(v1 * v2);
-                break;
-              case "/":
-                values.push(v1 / v2);
-                break;
-              default:
-                break;
+        if (postfix !== undefined) {
+        for (let i = 0; i < postfix.length; i++) {
+            console.log("values: ", values);
+            if (values.length > 0 && (postfix[i] === "+" || (postfix[i] === "-" && tmp.length > 0) || postfix[i] === "*" || postfix[i] === "/")) {
+                if (tmp.length > 0) {
+                    values.push(parseFloat(tmp));
+                    tmp = "";
+                }
+                let v1: number | undefined = values.pop();
+                let v2: number | undefined = values.pop();
+                console.log("inside", v1, v2);
+                if (v1 !== undefined && v2 !== undefined) {
+                    switch (postfix[i]) {
+                        case "+":
+                            values.push(v2 + v1);
+                            break;
+                        case "-":
+                            values.push(v2 - v1);
+                            break;
+                        case "*":
+                            values.push(v1 * v2);
+                            break;
+                        case "/":
+                            values.push(v1 / v2);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            } 
+            else if (postfix[i] == "-" && tmp.length == 0){
+                let v1: number | undefined = values.pop();
+                let v2: number | undefined = values.pop();
+                console.log("inside2", v1, v2);
+                if (v1 !== undefined && v2 !== undefined) {
+                    switch (postfix[i]) {
+                        case "+":
+                            values.push(v2 + v1);
+                            break;
+                        case "-":
+                            values.push(v2 - v1);
+                            break;
+                        case "*":
+                            values.push(v1 * v2);
+                            break;
+                        case "/":
+                            values.push(v1 / v2);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                tmp = "";
             }
-          }
-          tmp = "";
-        } else if (postfix[i] === " " && tmp.length > 0) {
-          values.push(parseInt(tmp));
-          tmp = "";
-        } else {
-          tmp += postfix[i];
+            else if (postfix[i] === " " && tmp.length > 0) {
+                values.push(parseFloat(tmp));
+                tmp = "";
+            } else {
+                tmp += postfix[i];
+            }
         }
-      }
+
     }
     return values[0];
   };

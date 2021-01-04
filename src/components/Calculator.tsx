@@ -7,6 +7,8 @@ function Calculator() {
   const [answer, setAns] : [number, any] = useState(0);
   const [history, setHist] : [Array<any>, any] = useState([]);
   // TODO: improve evaluate function and test it for any bugs. Need to add exponents and parenthesis
+  // TODO: account for postfix not evaluating right because of negative numbers ( we did but i just checked the next index to see if it was a number )
+  // TODO: adding parenthesis
   const evaluate = (expr: string): number => {
     let exp: string = "";
     for (let i = 0; i < expr.length; i++) {
@@ -19,6 +21,7 @@ function Calculator() {
         operators: Array<string> = [],
         temp: string = "";
     //console.log("Expression: ", exp);
+    // ---------------------------------------------------------- BEGINNING OF POSTFIX CONVERSION
     for (let i = 0; i < exp.length; i++){
         console.log("Temp: ", temp);
         if ((exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || exp[i] === '-') && temp.length > 0){
@@ -79,15 +82,17 @@ function Calculator() {
             }
         }
     }
+    // ---------------------------------------------------------------------------------------------------------------- END OF POSTFIX CONVERSION
     // after here, just need the postfix expression
     console.log("after while: ", expression, operators);
     let postfix: string | undefined = expression.pop();
     let values: Array<number> = [],
       tmp: string = "";
-        if (postfix !== undefined) {
+    // problems with negative signs: if the negative sign is by itself and tmp length is equal to 0
+    if (postfix !== undefined) {
         for (let i = 0; i < postfix.length; i++) {
             console.log("values: ", values);
-            if (values.length > 0 && (postfix[i] === "+" || (postfix[i] === "-" && tmp.length > 0) || postfix[i] === "*" || postfix[i] === "/")) {
+            if (values.length > 0 && (postfix[i] === "+" || (postfix[i] === "-" && (tmp.length > 0 || isNaN(parseInt(postfix[i+1])) || i + 1 === postfix.length)) || postfix[i] === "*" || postfix[i] === "/")) {
                 if (tmp.length > 0) {
                     values.push(parseFloat(tmp));
                     tmp = "";
@@ -113,39 +118,17 @@ function Calculator() {
                             break;
                     }
                 }
-            } 
-            else if (postfix[i] == "-" && tmp.length == 0){
-                let v1: number | undefined = values.pop();
-                let v2: number | undefined = values.pop();
-                console.log("inside2", v1, v2);
-                if (v1 !== undefined && v2 !== undefined) {
-                    switch (postfix[i]) {
-                        case "+":
-                            values.push(v2 + v1);
-                            break;
-                        case "-":
-                            values.push(v2 - v1);
-                            break;
-                        case "*":
-                            values.push(v1 * v2);
-                            break;
-                        case "/":
-                            values.push(v1 / v2);
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                tmp = "";
             }
             else if (postfix[i] === " " && tmp.length > 0) {
                 values.push(parseFloat(tmp));
                 tmp = "";
             } else {
+                // if (postfix[i] === '-'){
+                //     console.log("add digit", parseInt(postfix[i+1]), isNaN(parseInt(postfix[i+1])), postfix[i+1]);
+                // }
                 tmp += postfix[i];
             }
         }
-
     }
     return values[0];
   };

@@ -26,7 +26,7 @@ function ExpressionInput(props: any) {
         }}
       ></input>
       <div id="answer">
-        {expr.length > 0 && !expr.match(/^[A-Za-z]+$/) && answer !== undefined
+        {expr.length > 0 && !expr.match(/^[A-Za-z]+$/) && answer !== undefined && !isNaN(answer)
           ? "= " + answer
           : ""}
       </div>

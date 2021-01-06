@@ -23,3 +23,15 @@ test("(4)", ()=>{
 test("(4)+(1^3+4)", ()=>{
     expect(evaluate("(4)+(1^3+4)")).toBe(9);
 });
+
+test("4-4-4+4", ()=>{
+    expect(evaluate("4-4-4+4")).toBe(0);
+});
+
+test("3^(-3)", ()=>{
+    expect(evaluate("3^(-3)")).toBe(1/27);
+});
+
+test("3^10", ()=>{
+    expect(evaluate("3^10")).toBe(59049);
+});

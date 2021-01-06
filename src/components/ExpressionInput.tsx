@@ -9,23 +9,14 @@ function ExpressionInput(props: any) {
     setAns(props.evaluate(props.expr));
   }, [props.expr]);
   return (
-    <div id="type-area">
-      <input
-        type="text"
-        className="in"
-        onChange={(e) => {
-          setExpr(e.target.value);
-          setAns(props.evaluate(e.target.value));
-          props.history[props.index] = e.target.value;
-        }}
-        value={expr}
+    <div className="type-area">
+      <input type="text" className="in" onChange={(e) => { setExpr(e.target.value); setAns(props.evaluate(e.target.value)); props.history[props.index] = e.target.value; }} value={expr}
         onKeyDown={(e) => {
           if (e.key === "Backspace" && expr.length === 0) {
             props.del(props.index);
           }
-        }}
-      ></input>
-      <div id="answer">
+        }}></input>
+      <div className="answer">
         {expr.length > 0 && !expr.match(/^[A-Za-z]+$/) && answer !== undefined && !isNaN(answer)
           ? "= " + answer
           : ""}

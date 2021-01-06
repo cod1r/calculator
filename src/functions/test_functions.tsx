@@ -1,3 +1,33 @@
+// TODO: improve evaluate function and test it for any bugs. Need to add exponents and parenthesis
+// TODO: account for postfix not evaluating right because of negative numbers ( we did but i just checked the next index to see if it was a number )
+// TODO: adding parenthesis - I think I am done. ( need to test)
+// TODO: adding exponents - I think I am done. ( need to test)
+// TODO: need to polish things up ( like when an operator is missing one of its parameters )
+
+
+/*
+expression playground
+
+3*(3+4)
+
+4 3 + 3 *
+
+3*(3+4*3)
+
+3 3 4 3
+* ( + * )
+
+3*(3*4+3)
+
+3 ,3 4 *, 3
+* ( + )
+
+
+3*(3-3*6+15)
+
+3,3 3 6 *-, 15
+* ( + )
+*/
 export const evaluate = (expr: string): number => {
     let exp: string = "";
     for (let i = 0; i < expr.length; i++) {

@@ -1,64 +1,92 @@
-#in {
-    padding: 15px;
-    width: 100%;
-    min-width: 100%;
-    font-size: 20px;
-}
-
-#operations {
-  grid-row: 2/3;
-  grid-column: 1/2;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 200px;
-  border: 1px solid black;
-}
-
 #calc {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    /* position: absolute; */
+	display: grid;
+	grid-template-columns: repeat(2, minmax(500px, 1fr));
+	grid-template-rows: 100px 1fr;
+	height: 100%;
+	padding: 300px;
 }
 
+/* includes both the answer and the input box */
+.type-area {
+	margin: 2px;
+	border: 1px lightblue solid;
+    padding: 5px;
+    height: 95px;
+}
+
+/* input box */
+.in {
+	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+	padding: 15px;
+	width: 100%;
+	font-size: 20px;
+	max-width: 100%;
+	border: 1px lightseagreen solid;
+}
+.in:focus, button:focus {
+	outline: none;
+}
+/* this includes both the numbers keys and the basic operations */
+#operations {
+	margin: 2px;
+	border: 1px lightseagreen solid;
+	grid-row: 2/3;
+	grid-column: 1/2;
+}
+/* this is for the number keys and operations */
 #numbers {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
+    display: grid;
+	grid-template-columns: repeat(4, 80px);
+	grid-template-rows: repeat(4, 40px);
 }
 
-#basic {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, 60px);
+#numbers button:nth-child(n+1):nth-child(-n+3) {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
-#basic button {
-  font-size: 20px;
+#numbers button:nth-child(n+4):nth-child(-n+6) {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+	grid-row: 2;
+}
+#numbers button:nth-child(n+7):nth-child(-n+9) {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    grid-row: 3;
+}
+#numbers button:nth-child(n+10):nth-child(-n+12) {
+    font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    grid-row: 4;
+}
+/* this is for the answer box when the answer is displayed */
+.answer {
+	font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+		"Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	white-space: nowrap;
+	height: 20px;
 }
 
-#answer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    white-space: nowrap;
-    height: 20px;
-}
-
-#type-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
+/* history div */
 #history {
-    display: block;
-    grid-column: 2/3;
-    grid-row: span 2;
-    border: 2px dashed blue;
-    overflow-y: scroll;
-    max-height: 400px;
+	grid-column: 2/3;
+	grid-row: span 2;
+	overflow-y: scroll;
 }
 
 button {
-  margin: 2px;
+    font-size: 20px;
+    border: none;
+    background-color: lightseagreen;
+	margin: 2px;
+}
+
+
+button:hover {
+    cursor: pointer;
 }

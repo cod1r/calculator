@@ -1,50 +1,86 @@
 import { useEffect, useRef, useState } from "react";
 import { evaluate } from "../functions/test_functions";
 import ExpressionInput from "./ExpressionInput";
+// @ts-ignore
+import MathJax from 'react-mathjax2';
 import "./Calculator.css";
-
 // TODO: add other mathematical functions such as cos, sin, tan, etc.
 // TODO: add eulers limit ( e = 2.718 )
 // TODO: add pi
 // TODO: add log and natural log with different bases
-// TODO: parse through the expression and change it to a better format like 3^4 should actually have the four above the three using .... something. I don't know how to hack the text in the input tag to make it render math
+// TODO: parse through the expression and change it to a better format like 3^4 should actually have the four above the three using Canvas! We can parse the text and draw certain symbols using canvas.
 function Calculator() {
     const [expression, setExp] : [string, any] = useState("");
     const [answer, setAns] : [number, any] = useState(0);
     const [history, setHist] : [Array<any>, any] = useState([]);
-
+    const [displayExp, setDispExp] : [string, any] = useState("");
 
     const del = (i: number): void => {
         history.splice(i, 1);
         setHist([...history]);
     };
 
+    const changeDisp = (e:any) :void =>{
+        setDispExp('$$'+e.target.value+'$$');
+    }
+
   return (
     <div id="calc">
-        <div className="type-area">
-            <input
-                type="text"
-                className="in"
-                onChange={(e) => {
-                    setExp(e.target.value);
-                    setAns(evaluate(e.target.value));
-                }}
-                value={expression}
-                onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                    let copy: Array<any> = [...history];
-                    copy.push(expression);
-                    setHist(copy);
+        <div id='display'>
+            <MathJax.Context
+                input='ascii'
+                onError={ (MathJax : any, error : any) => {
+                    console.warn(error);
+                    console.log("Encountered a MathJax error, re-attempting a typeset!");
+                    MathJax.Hub.Queue(
+                        MathJax.Hub.Typeset()
+                    );
+                } }
+                script="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML"
+                options={ {
+                    asciimath2jax: {
+                        useMathMLspacing: true,
+                        delimiters: [["$$","$$"]],
+                        preview: "none",
+                    },
+                    styles: {
+                        "#MathJax_Message": {
+                            display: 'none'
+                        }
                     }
-                }}
-            ></input>
-            <div className="answer">
-                {expression.length > 0 &&
-                !expression.match(/^[A-Za-z]+$/) &&
-                answer !== undefined && !isNaN(answer)
-                    ? "= " + answer
-                    : ""}
-            </div>
+                } }
+            >
+                <MathJax.Text text={ displayExp }/>
+            </MathJax.Context>
+        </div>
+        <div className="type-area">
+            <input 
+                type="text" 
+                className="in" 
+                id="math"
+                onFocus={changeDisp}
+                onChange={(e) => { 
+                        setExp(e.target.value); 
+                        setAns(evaluate(e.target.value));
+                        changeDisp(e);
+                    }
+                } 
+                value={expression} 
+                onKeyDown={ 
+                    (e) => {
+                        if (e.key === "Enter") {
+                            let copy: Array<any> = [...history]; 
+                            copy.push(expression);
+                            setHist(copy);
+                        }
+                    }
+                }
+            />
+            <div className="answer">{
+                expression.length > 0 &&
+                !expression.match(/^[A-Za-z]+$/) && 
+                answer !== undefined && 
+                !isNaN(answer) ? "= " + answer : ""}</div>
         </div>
         <div id="operations">
             <div id="numbers">
@@ -68,15 +104,18 @@ function Calculator() {
         </div>
         <div id="history">
             {
-                history.map((x, index) => ( 
-                <ExpressionInput
-                key={index}
-                evaluate={evaluate}
-                del={del}
-                index={index}
-                expr={x}
-                history={history}></ExpressionInput>)
-                )}
+                history.map(
+                    (x, index) => ( 
+                    <ExpressionInput
+                    changeDisp={changeDisp}
+                    key={index}
+                    evaluate={evaluate}
+                    del={del}
+                    index={index}
+                    expr={x}
+                    history={history}/>
+                ))
+            }
         </div>
     </div>
   );

@@ -1,13 +1,25 @@
 #calc {
 	display: grid;
 	grid-template-columns: repeat(2, minmax(500px, 1fr));
-	grid-template-rows: 100px 1fr;
+	grid-template-rows: repeat(2, 100px) 1fr;
 	height: 100%;
-	padding: 300px;
+	padding: 100px 300px 300px 300px;
+}
+
+#display{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 15px;
+    grid-column: span 2;
 }
 
 /* includes both the answer and the input box */
 .type-area {
+    grid-row: 2/3;
+    grid-column: 1/2;
 	margin: 2px;
 	border: 1px lightblue solid;
     padding: 5px;
@@ -29,9 +41,9 @@
 }
 /* this includes both the numbers keys and the basic operations */
 #operations {
-	margin: 2px;
+    margin: -1px 2px 2px 2px;
 	border: 1px lightseagreen solid;
-	grid-row: 2/3;
+	grid-row: 3/4;
 	grid-column: 1/2;
 }
 /* this is for the number keys and operations */
@@ -75,7 +87,7 @@
 /* history div */
 #history {
 	grid-column: 2/3;
-	grid-row: span 2;
+	grid-row: 2/4;
 	overflow-y: scroll;
 }
 
@@ -85,7 +97,6 @@ button {
     background-color: lightseagreen;
 	margin: 2px;
 }
-
 
 button:hover {
     cursor: pointer;

@@ -73,19 +73,27 @@ export const evaluate = (expr: string): number => {
                 expression.push(temp);
                 temp = "";
             }
-            while (operators.length > 0 && operators[operators.length-1] !== '('){
-                let one : string | undefined = expression.pop();
-                let two : string | undefined = expression.pop();
-                let op : string | undefined = operators.pop();
-                if (one !== undefined && two !== undefined && op !== undefined){
-                    switch(op){
-                        case '^':
-                        case '+':
-                        case '-': expression.push(two + " " + one + op); break;
-                        case '*':
-                        case '/': expression.push(one + " " + two + op); break;
-                        default: break;
+            if (operators[operators.length-1] !== '('){
+                while (operators.length > 0 && operators[operators.length-1] !== '('){
+                    let one : string | undefined = expression.pop();
+                    let two : string | undefined = expression.pop();
+                    let op : string | undefined = operators.pop();
+                    if (one !== undefined && two !== undefined && op !== undefined){
+                        switch(op){
+                            case '^':
+                            case '+':
+                            case '-': expression.push(two + " " + one + op); break;
+                            case '*':
+                            case '/': expression.push(one + " " + two + op); break;
+                            default: break;
+                        }
                     }
+                }
+            }
+            else {
+                let t : string | undefined = expression.pop();
+                if (t !== undefined){
+                    temp = t;
                 }
             }
             // if statement is here for when the first if that checks if the top operator is not an opening parentheses

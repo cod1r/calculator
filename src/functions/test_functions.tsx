@@ -102,7 +102,7 @@ export const evaluate = (expr: string): number => {
             }
             continue;
         }
-        if (exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || (exp[i] === '-' && temp.length > 0) || exp[i] === '^'){
+        if (exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || (exp[i] === '-' && (temp.length > 0 || exp[i-1] === ')')) || exp[i] === '^'){
             // console.log("operator", exp[i]);
             if (temp.length > 0){
                 expression.push(temp);

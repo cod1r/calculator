@@ -145,7 +145,7 @@ export const evaluate = (expr: string): number => {
         // console.log("done loop: ", temp);
         expression.push(temp);
     }
-    console.log("before while: " , expression, operators);
+    //console.log("before while: " , expression, operators);
     let counter = 0;
     while (operators.length > 0 && expression.length >= 2){
         counter++;
@@ -179,7 +179,7 @@ export const evaluate = (expr: string): number => {
     }
     // ---------------------------------------------------------------------------------------------------------------- END OF POSTFIX CONVERSION
     // after here, just need the postfix expression
-    console.log("after while: ", expression, operators);
+    //console.log("after while: ", expression, operators);
     let postfix: string | undefined = expression.pop();
     let values: Array<number> = [], tmp: string = "";
     if (postfix !== undefined) {
@@ -225,7 +225,7 @@ export const evaluate = (expr: string): number => {
             }
         }
     }
-    console.log("values:", values);
+    //console.log("values:", values);
     if (values.length === 0 && postfix !== undefined){
         values.push(parseFloat(postfix));
     }

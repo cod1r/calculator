@@ -18,7 +18,6 @@ function ExpressionInput(props: any) {
                         setExpr(e.target.value); 
                         setAns(props.evaluate(e.target.value)); 
                         props.history[props.index] = e.target.value; 
-                        props.changeDisp(e);
                     }
             } 
             value={expr}
@@ -29,7 +28,6 @@ function ExpressionInput(props: any) {
                         }
                     }
             }
-            onFocus={props.changeDisp}
         ></input>
       <div className="answer">
         {expr.length > 0 && !expr.match(/^[A-Za-z]+$/) && answer !== undefined && !isNaN(answer)

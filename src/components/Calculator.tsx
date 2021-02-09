@@ -1,8 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { evaluate } from "../functions/test_functions";
 import ExpressionInput from "./ExpressionInput";
-// @ts-ignore
-import MathJax from 'react-mathjax2';
 import "./Calculator.css";
 // TODO: add other mathematical functions such as cos, sin, tan, etc.
 // TODO: add eulers limit ( e = 2.718 )
@@ -13,56 +11,22 @@ function Calculator() {
     const [expression, setExp] : [string, any] = useState("");
     const [answer, setAns] : [number, any] = useState(0);
     const [history, setHist] : [Array<any>, any] = useState([]);
-    const [displayExp, setDispExp] : [string, any] = useState("");
 
     const del = (i: number): void => {
         history.splice(i, 1);
         setHist([...history]);
     };
 
-    const changeDisp = (e:any) :void =>{
-        setDispExp('$$'+e.target.value+'$$');
-    }
-
   return (
     <div id="calc">
-        <div id='display'>
-            <MathJax.Context
-                input='ascii'
-                onError={ (MathJax : any, error : any) => {
-                    console.warn(error);
-                    console.log("Encountered a MathJax error, re-attempting a typeset!");
-                    MathJax.Hub.Queue(
-                        MathJax.Hub.Typeset()
-                    );
-                } }
-                script="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=AM_HTMLorMML"
-                options={ {
-                    asciimath2jax: {
-                        useMathMLspacing: true,
-                        delimiters: [["$$","$$"]],
-                        preview: "none",
-                    },
-                    styles: {
-                        "#MathJax_Message": {
-                            display: 'none'
-                        }
-                    }
-                } }
-            >
-                <MathJax.Text text={ displayExp }/>
-            </MathJax.Context>
-        </div>
         <div className="type-area">
             <input 
                 type="text" 
                 className="in" 
                 id="math"
-                onFocus={changeDisp}
                 onChange={(e) => { 
                         setExp(e.target.value); 
                         setAns(evaluate(e.target.value));
-                        changeDisp(e);
                     }
                 } 
                 value={expression} 
@@ -76,11 +40,14 @@ function Calculator() {
                     }
                 }
             />
-            <div className="answer">{
-                expression.length > 0 &&
-                !expression.match(/^[A-Za-z]+$/) && 
-                answer !== undefined && 
-                !isNaN(answer) ? "= " + answer : ""}</div>
+            <div className="answer">
+                {
+                    expression.length > 0 &&
+                    !expression.match(/^[A-Z]+$/) && 
+                    answer !== undefined && 
+                    !isNaN(answer) ? "= " + answer : ""
+                }
+            </div>
         </div>
         <div id="operations">
             <div id="numbers">
@@ -107,7 +74,6 @@ function Calculator() {
                 history.map(
                     (x, index) => ( 
                     <ExpressionInput
-                    changeDisp={changeDisp}
                     key={index}
                     evaluate={evaluate}
                     del={del}

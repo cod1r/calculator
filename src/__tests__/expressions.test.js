@@ -63,3 +63,23 @@ test("-2+(-1)", ()=>{
 test("(1)+(1)", ()=>{
     expect(evaluate("(1)+(1)")).toBe(2);
 });
+
+test("sin(4)", ()=>{
+    expect(evaluate("sin(4)")).toBe(Math.sin(4));
+});
+
+test("cos(4)", ()=>{
+    expect(evaluate("cos(4)")).toBe(Math.cos(4));
+});
+
+test("tan(4)", ()=>{
+    expect(evaluate("tan(4)")).toBe(Math.tan(4));
+});
+
+test("1+tan(4)", ()=>{
+    expect(evaluate("1+tan(4)")).toBe(1+Math.tan(4));
+});
+
+test("(tan(4))^2", ()=>{
+    expect(evaluate("(tan(4))^2")).toBe(Math.pow(Math.tan(4), 2));
+});

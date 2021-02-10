@@ -16,7 +16,13 @@
     padding: 5px;
     height: 95px;
 }
-
+.label{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
 /* input box */
 .in {
 	padding: 15px;
@@ -42,9 +48,6 @@
 	grid-template-rows: repeat(4, 40px);
 }
 
-#numbers button:nth-child(n+1):nth-child(-n+3) {
-}
-
 #numbers button:nth-child(n+4):nth-child(-n+6) {
 	grid-row: 2;
 }
@@ -61,6 +64,7 @@
 	align-items: center;
 	white-space: nowrap;
 	height: 20px;
+    font-size: 20px;
 }
 
 /* history div */
@@ -68,6 +72,8 @@
 	grid-column: 2/3;
 	grid-row: 2/4;
 	overflow-y: scroll;
+    margin: 2px;
+    border: 1px lightblue solid;
 }
 
 button {
@@ -75,6 +81,7 @@ button {
     border: none;
     background-color: lightseagreen;
 	margin: 2px;
+    border-radius: 5px;
 }
 
 button:hover {

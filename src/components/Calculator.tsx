@@ -19,6 +19,12 @@ function Calculator() {
 
   return (
     <div id="calc">
+        <div className="label">
+            Calculator
+        </div>
+        <div className="label">
+            History
+        </div>
         <div className="type-area">
             <input 
                 type="text" 

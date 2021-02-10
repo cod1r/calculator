@@ -1,34 +1,4 @@
-// TODO: improve evaluate function and test it for any bugs. Need to add exponents and parenthesis
-// TODO: account for postfix not evaluating right because of negative numbers ( we did but i just checked the next index to see if it was a number )
-// TODO: adding parenthesis - I think I am done. ( need to test)
-// TODO: adding exponents - I think I am done. ( need to test)
-// TODO: need to polish things up ( like when an operator is missing one of its parameters )
-
-
-/*
-expression playground
-
-3*(3+4)
-
-4 3 + 3 *
-
-3*(3+4*3)
-
-3 3 4 3
-* ( + * )
-
-3*(3*4+3)
-
-3 ,3 4 *, 3
-* ( + )
-
-
-3*(3-3*6+15)
-
-3,3 3 6 *-, 15
-* ( + )
-*/
-export const evaluate = (expr: string): number => {
+export const evaluate = (expr : string) : number => {
     let exp: string = "";
     for (let i = 0; i < expr.length; i++) {
         if (expr[i] === " ") {
@@ -129,7 +99,7 @@ export const evaluate = (expr: string): number => {
             if (operators[operators.length-1] === '('){
                 operators.pop();
             }
-            console.log("after: expression", expression, "operators", operators);
+            // console.log("after: expression", expression, "operators", operators);
             continue;
         }
         if (exp[i] === '*' || exp[i] === '/' || exp[i] === '+' || (exp[i] === '-' && (temp.length > 0 || exp[i-1] === ')')) || exp[i] === '^'){
@@ -200,7 +170,7 @@ export const evaluate = (expr: string): number => {
         // console.log("done loop: ", temp);
         expression.push(temp);
     }
-    console.log("before while: " , expression, operators);
+    // console.log("before while: " , expression, operators);
     let counter = 0;
     while (operators.length > 0 && expression.length >= 0){
         counter++;
@@ -258,10 +228,10 @@ export const evaluate = (expr: string): number => {
     }
     // ---------------------------------------------------------------------------------------------------------------- END OF POSTFIX CONVERSION
     // after here, just need the postfix expression
-    console.log("after while: ", expression, operators);
+    // console.log("after while: ", expression, operators);
     let postfix: string | undefined = expression.pop();
     let values: Array<number> = [], tmp: string = "";
-    console.log("postfix:", postfix);
+    // console.log("postfix:", postfix);
     if (postfix !== undefined) {
         for (let i = 0; i < postfix.length; i++) {
             // console.log("values: ", values, postfix[i], tmp.length > 0, isNaN(parseInt(postfix[i+1])), i+1===postfix.length, tmp.charCodeAt(0), tmp.length);

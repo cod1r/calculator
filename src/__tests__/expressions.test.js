@@ -83,3 +83,7 @@ test("1+tan(4)", ()=>{
 test("(tan(4))^2", ()=>{
     expect(evaluate("(tan(4))^2")).toBe(Math.pow(Math.tan(4), 2));
 });
+
+test("30(30)", () => {
+    expect(evaluate("30(30)")).toBe(30*30);
+})

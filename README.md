@@ -3,7 +3,7 @@
 # Build directions
 1. Switch to gh-pages branch.
 2. merge changes in main branch.
-3. Make sure you have an environment var named 'PUBLIC\_URL' that is equal to '/calculator'
+3. Make sure you have an environment var named 'PUBLIC\_URL' that is equal to '/calculator'. ![cra link](https://create-react-app.dev/docs/using-the-public-folder/)
 4. run `npm run build`
 5. rename 'build' folder to 'docs'
 6. push

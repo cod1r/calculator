@@ -1,6 +1,12 @@
 # Calculator for basic arithmetic, linear algebra, and hopefully calculus! :)
 
-# In order to see changes, you must switch to gh-pages branch, build the app, and then rename the build folder to "docs" which will either replace the old "docs" folder or you need to manually remove the previous "docs" folder.
+# Build directions
+1. Switch to gh-pages branch.
+2. merge changes in main branch.
+3. Make sure you have an environment var named 'PUBLIC\_URL' that is equal to '/calculator'
+4. run `npm run build`
+5. rename 'build' folder to 'docs'
+6. push
 
 
 # Getting Started with Create React App

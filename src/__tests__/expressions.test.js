@@ -64,10 +64,26 @@ test("(1)+(1)", ()=>{
     expect(evaluate("(1)+(1)")).toBe(2);
 });
 
-test("4+(3^2+4)", ()=>{
-    expect(evaluate("4+(3^2+4)")).toBe(17);
+test("sin(4)", ()=>{
+    expect(evaluate("sin(4)")).toBe(Math.sin(4));
 });
 
-test("(4+5)/((2+3-2)-3)", ()=>{
-    expect(evaluate("(4+5)/((2+3-2)-3)")).toBe(Infinity);
+test("cos(4)", ()=>{
+    expect(evaluate("cos(4)")).toBe(Math.cos(4));
 });
+
+test("tan(4)", ()=>{
+    expect(evaluate("tan(4)")).toBe(Math.tan(4));
+});
+
+test("1+tan(4)", ()=>{
+    expect(evaluate("1+tan(4)")).toBe(1+Math.tan(4));
+});
+
+test("(tan(4))^2", ()=>{
+    expect(evaluate("(tan(4))^2")).toBe(Math.pow(Math.tan(4), 2));
+});
+
+test("30(30)", () => {
+    expect(evaluate("30(30)")).toBe(30*30);
+})
